@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <NavBar />
-      <div className='site-content'>
+      <div className='site-content p-3 p-lg-4'>
         <h1>Academic Assistant</h1>
       </div>
       <Footer />
