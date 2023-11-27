@@ -1,16 +1,24 @@
-import './index.css'
-import Footer from './components/Footer'
-import NavBar from './components/NavBar'
+import './index.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Footer from './components/Footer';
+import NavBar from './components/NavBar';
+import Home from './pages/Home';
+import Chat from './pages/Chat';
+import Chats from './pages/Chats';
 
 function App() {
   return (
-    <>
+    <Router>
       <NavBar />
       <div className='site-content p-3 p-lg-4'>
-        <h1>Academic Assistant</h1>
+        <Routes>
+          <Route path='/chats' element={<Chats />} />
+          <Route path='/chats/:id' element={<Chat />} />
+          <Route exact path='/' element={<Home />} />
+        </Routes>
       </div>
       <Footer />
-    </>
+    </Router>
   );
 }
 
