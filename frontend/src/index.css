@@ -1,14 +1,17 @@
 /* Define style constants here (for light mode). */
 :root {
-  --background: #e8f3ff;
+  --background: #F7F7F7;
   --text: #0f0f0f;
+  --primary:#7da2a9;
+  --secondary:#F7F7F7;
+  --fontsize: 20px;
 }
 
 /* Override them here for dark mode. */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #1a2870;
-    --text: #f0f0f0;
+    --background: #F7F7F7;
+    --text: #7da2a9;
   }
 }
 
@@ -32,17 +35,41 @@ body {
   flex-flow: column;
   min-height: 100vh;
 }
+p{
+  color:black;
+  font-size: var(--fontsize);
+}
+.accesibilityBtn{
+  margin-left: 5px;
+  margin-top: 25px;
+  position: absolute;
+  img{
+    width: 50px;
+    height: 50px;
+  }
+  .btn{
+    background-color: var(--secondary);
+    border-radius: 100%;
+  }
+}
 
 .top-navbar {
   flex: 0 1 auto;
+  position: relative;
 }
 
 .site-content {
   flex: 1 1 auto;
+  position: relative;
 }
 
 .footer {
   width: 100%;
+}
+
+.btn{
+  background-color: var(--primary);
+  outline-color: var(--primary);
 }
 
 /* Misc styles. */

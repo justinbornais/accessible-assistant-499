@@ -10,7 +10,7 @@ export default function Footer() {
                         <li className="nav-item"><a href="https://google.ca" className="nav-link px-2 text-body-secondary">FAQs</a></li>
                         <li className="nav-item"><a href="https://google.ca" className="nav-link px-2 text-body-secondary">About</a></li>
                     </ul>
-                    <p className="text-center text-body-secondary">© 2023 Company, Inc</p>
+                    <p className="text-center text-body-secondary" style={{fontSize:"12px"}}>© 2023 Company, Inc</p>
                 </footer>
             </div>
         </div>
