@@ -5,18 +5,21 @@ import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import Chat from './pages/Chat';
 import Chats from './pages/Chats';
+import AccesibilityMenu from './components/AccesibilityMenu';
 
 function App() {
   return (
     <Router>
-      <NavBar />
+      <NavBar />  
       <div className='site-content p-3 p-lg-4'>
+      <AccesibilityMenu />
         <Routes>
           <Route path='/chats' element={<Chats />} />
           <Route path='/chats/:id' element={<Chat />} />
           <Route exact path='/' element={<Home />} />
         </Routes>
-      </div>
+
+      </div> 
       <Footer />
     </Router>
   );
