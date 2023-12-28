@@ -1,8 +1,12 @@
 import React, {useState} from "react";
-import { Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap'; 
+import '../index.css'
 
 export default function AccesibilityMenu() { 
-    const [menuEnabled, toggleAccMenu] = useState("hidden");
+    const root = document.documentElement;
+    const currentFontSize = parseFloat(getComputedStyle(root).getPropertyValue('--fontsize'));
+    const [menuEnabled, toggleAccMenu] = useState("visible");
+    const [fontsize, setFontSize] = useState(currentFontSize);
     const toggleMenu = () => {
         if (menuEnabled === "visible") {
             toggleAccMenu("hidden");
@@ -12,11 +16,26 @@ export default function AccesibilityMenu() {
         }
         console.log(menuEnabled);
     }
+    const changeFontSize = (action) => {
+        if (action === 'increase') {
+            setFontSize(fontsize + 1); 
+        }
+        else {
+            setFontSize(fontsize - 1);
+            
+        }
+        const string = fontsize.toString().concat("px");
+        console.log(string);
+        root.style.setProperty('--fontsize', string);
+    }
     const divStyle = {
         visibility: menuEnabled,
-        border: "10px",
-        width: "100px",
-        height: "100px"
+        border: "2px",
+        borderColor: "black",
+        borderStyle: "solid",
+        padding: "5px",
+        borderRadius: "10px",
+        backgroundColor: "white",
     }
     
     return (
@@ -27,6 +46,9 @@ export default function AccesibilityMenu() {
             <div className="accesibilityMenu container d-flex flex-column align-items-center" style={divStyle}>
                 <div className="option1 container d-flex flex-row justify-content-center">
                     <p>Profile: </p><p>Default</p>
+                </div>
+                <div className="option2 container d-flex flex-row justify-content-center">
+                    <Button onClick={() => changeFontSize('decrease')}>-</Button><Button className="btn-static">aA</Button><Button onClick={() => changeFontSize('increase')}>+</Button>
                 </div>
             </div>
         </div>

@@ -10,7 +10,6 @@ import AccesibilityMenu from './components/AccesibilityMenu';
 function App() {
   return (
     <Router>
-      <NavBar />  
       <div className='site-content p-3 p-lg-4'>
       <AccesibilityMenu />
         <Routes>
