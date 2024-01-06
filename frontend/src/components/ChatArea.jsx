@@ -21,6 +21,12 @@ export default function ChatArea() {
                         Ask ChatGPT
                     </Button>
                 </Link>
+
+                <Link to="/chats">
+                    <Button>
+                        Click Popup
+                    </Button>
+                </Link>
             </div>
         </div>
     )
