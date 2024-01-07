@@ -14,7 +14,7 @@ def recieve_data():
     if request.method == "POST":
         data = request.get_data()
         data = json.loads(data)
-        print(askGPT(data))
+        print(data)
 @app.route("/<name>")
 def user(name):
     return f"Sup {name}."
