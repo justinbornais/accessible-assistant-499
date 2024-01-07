@@ -48,7 +48,7 @@ export default function AccesibilityMenu() {
                     <p>Profile: </p><p>Default</p>
                 </div>
                 <div className="option2 container d-flex flex-row justify-content-center">
-                    <Button onClick={() => changeFontSize('decrease')}>-</Button><Button className="btn-static">{fontsize}px</Button><Button onClick={() => changeFontSize('increase')}>+</Button>
+                    <Button onClick={() => changeFontSize('decrease')}>-</Button><Button className="btn-static">{currentFontSize}px</Button><Button onClick={() => changeFontSize('increase')}>+</Button>
                 </div>
             </div>
         </div>
