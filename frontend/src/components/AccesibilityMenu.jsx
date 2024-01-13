@@ -7,6 +7,7 @@ export default function AccesibilityMenu() {
     const currentFontSize = parseFloat(getComputedStyle(root).getPropertyValue('--fontsize'));
     const [menuEnabled, toggleAccMenu] = useState("visible");
     const [fontsize, setFontSize] = useState(currentFontSize);
+    const [speed, setSpeed] = useState(1);
     const toggleMenu = () => {
         if (menuEnabled === "visible") {
             toggleAccMenu("hidden");
@@ -27,6 +28,18 @@ export default function AccesibilityMenu() {
         const string = fontsize.toString().concat("px");
         console.log(string);
         root.style.setProperty('--fontsize', string);
+    }
+    const changeSpeed = (action) => {
+        if (action === 'increase') {
+            console.log("Increased Speed");
+            setSpeed(speed + 0.25);
+            //Add Code for changing the value in backend
+        }
+        else {
+            console.log("Decreased Speed");
+            if (speed > 0) setSpeed(speed - 0.25);
+            //Add code for changing the value in backend
+        }
     }
     const divStyle = {
         visibility: menuEnabled,
@@ -49,6 +62,9 @@ export default function AccesibilityMenu() {
                 </div>
                 <div className="option2 container d-flex flex-row justify-content-center">
                     <Button onClick={() => changeFontSize('decrease')}>-</Button><Button className="btn-static">{currentFontSize}px</Button><Button onClick={() => changeFontSize('increase')}>+</Button>
+                </div>
+                <div className="option3 container d-flex flex-row justify-content-center">
+                    <Button onClick={() => changeSpeed('decrease')}>-</Button><Button className="btn-static">{speed.toFixed(2)}x</Button><Button onClick={() => changeSpeed('increase')}>+</Button>
                 </div>
             </div>
         </div>

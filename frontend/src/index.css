@@ -58,12 +58,15 @@ p{
     border-radius: 0%;
     pointer-events: none;
   }
-  .option2{
+  .option2,.option3{
     Button{
       border-radius: 0%;
       
     }
     
+  }
+  .option3{
+    margin-top: 5px;
   }
 }
 .top-navbar {
