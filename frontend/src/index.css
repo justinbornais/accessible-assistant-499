@@ -4,7 +4,7 @@
   --text: #0f0f0f;
   --primary:#7da2a9;
   --secondary:#F7F7F7;
-  --fontsize: 20px;
+  --fontsize: 1.2rem;
 }
 
 /* Override them here for dark mode. */
@@ -17,6 +17,7 @@
 *{
   font-size: var(--fontsize);
 }
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -41,31 +42,30 @@ p{
   color:black;
   font-size: var(--fontsize);
 }
-.accesibilityBtn{
+
+.accesibilityBtn {
   margin-left: 5px;
   margin-top: 25px;
   position: absolute;
-  img{
+  img {
     width: 50px;
     height: 50px;
   }
-  .test{
+  .test {
     background-color: var(--secondary);
     border-radius: 100%;
   }
-  .btn-static{
+  .btn-static {
     background-color: var(--primary);
     border-radius: 0%;
     pointer-events: none;
   }
-  .option2,.option3{
-    Button{
+  .option2,.option3 {
+    Button {
       border-radius: 0%;
-      
     }
-    
   }
-  .option3{
+  .option3 {
     margin-top: 5px;
   }
 }
