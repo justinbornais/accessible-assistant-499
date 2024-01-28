@@ -69,6 +69,19 @@ p{
     margin-top: 5px;
   }
 }
+.visualizeButton{
+  margin-right:-20px;
+}
+.visualizeImg{
+  width:30px;
+  height:30px;
+}
+.visualizedImage{
+  
+  width:70%;
+  height:70%;
+}
+
 .top-navbar {
   flex: 0 1 auto;
   position: relative;
