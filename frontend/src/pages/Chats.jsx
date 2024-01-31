@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { Button } from 'react-bootstrap';
 //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
 export default function Chats() {
-  const [chatList, addChatEntry] = useState(JSON.parse(window.localStorage.getItem('chats')));
+  const [chatList, setChatList] = useState(JSON.parse(window.localStorage.getItem('chats')));
   const [question, setQuestion] = useState("");
   const [imageEnabled, toggleImage] = useState("hidden");
   const [imageSrc, changeImg] = useState("../../images/Robot.jpg");
@@ -15,19 +15,27 @@ export default function Chats() {
     setQuestion(event.target.value);
   }
   //fetch function, having flask route set a 
-  const addChat = () => {
-    // fetch('http://localhost:3000/chats', {
-    //   'method': 'POST',
-    //   headers: {
-    //     'Content-Type':'application/json'
-    //   },
-    //   data: question
-    // }).then(response=>response.json())
-    const newList = chatList.concat({ userName: 'Guest', userMsg: question, AIMsg: 'AIResponse' }); //Add new prompt
-    window.localStorage.setItem('chats', JSON.stringify(newList)); //Add new prompt to local storage
-    addChatEntry(JSON.parse(window.localStorage.getItem('chats'))); //Set current state to the new local storage list
-    setQuestion("");
+  const addChat = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/chats/ask', {
+        'method': 'POST',
+        headers: {
+          'Content-Type':'application/json'
+        },
+        body: JSON.stringify({ question: question })
+      });
+      const data = await response.json()
+      console.log(response, data['answer']);
+      const newList = chatList.concat({ userName: 'Guest', userMsg: question, AIMsg: data['answer'] }); //Add new prompt
+      window.localStorage.setItem('chats', JSON.stringify(newList)); //Add new prompt to local storage
+      setChatList(JSON.parse(window.localStorage.getItem('chats'))); //Set current state to the new local storage list
+      setQuestion("");
+    } catch (error) {
+      console.error(error);
+    }
   }
+
+
   const visualizeChat = value => () => {
     if (value === "AIResponse") {
       //Add code for calling backend and getting image
@@ -56,13 +64,16 @@ export default function Chats() {
         <div className="col1 d-flex flex-column col-md-4 align-items-center">
       <center><h2>Chat History</h2></center>
       <div className="allChats container d-flex flex-column align-items-center" style={{border:"10px", height:"380px",overflowX:"hidden", overflowY:"auto"}}>
-        {chatList.map(function (data) {
+        {chatList.map((data, index) => {
           return (
-            <><div className="userMessage container d-flex flex-row justify-content-center">
-              <p>{data.userName}:&nbsp;&nbsp;</p><p>{data.userMsg}</p>
-            </div><div className="aiResponse container d-flex flex-row justify-content-center">
+            <React.Fragment key={index}>
+              <div className="userMessage container d-flex flex-row justify-content-center">
+                <p>{data.userName}:&nbsp;&nbsp;</p><p>{data.userMsg}</p>
+              </div>
+              <div className="aiResponse container d-flex flex-row justify-content-center">
                 <p>ChatGPT:&nbsp;&nbsp;</p><p>{data.AIMsg}</p><Button className="visualizeButton" onClick={visualizeChat(data.AIMsg)}><img className="visualizeImg" src="../../images/visualize.png" alt="Visualize Button"></img></Button>
-              </div></>
+              </div>
+            </React.Fragment>
         )
       })}
           </div>

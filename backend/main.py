@@ -1,10 +1,34 @@
 import json
 from flask import Flask, redirect, url_for, render_template, request
+from flask_cors import CORS
 import os
 from openai import OpenAI
 os.environ["OPENAI_API_KEY"] = "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"
 client = OpenAI()
+
+
 app = Flask(__name__)
+CORS(app)
+
+@app.route("/chats/ask", methods=['POST'])
+def askGPT():
+    message = request.json
+    print(message)
+    print(message['question'])
+
+    # completion = client.chat.completions.create(
+    #     model="gpt-3.5-turbo",
+    #     messages=[
+    #         {
+    #             "role": "user",
+    #             "content": message['question'],
+    #         },
+    #     ],
+    # )
+
+    response = {'answer': 'the wff is a subwff of itself because the wff contains itself'}
+    return response
+    return(completion.choices[0].message.content)
 
 @app.route("/")
 def home():
@@ -25,15 +49,3 @@ def admin():
 
 if __name__ == "__main__":
     app.run()
-
-def askGPT(message):
-    completion = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=[
-            {
-                "role": "user",
-                "content": message,
-            },
-        ],
-    )
-    return(completion.choices[0].message.content)
