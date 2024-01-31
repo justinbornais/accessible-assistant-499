@@ -30,22 +30,24 @@ def askGPT():
     return response
     return(completion.choices[0].message.content)
 
-@app.route("/")
-def home():
-    return render_template("index.html")
+@app.route("/admin/")
+def admin():
+    return redirect(url_for("user", name="unauthorized user"))
+
 @app.route("/chats", methods=['POST','GET'])
 def recieve_data():
     if request.method == "POST":
         data = request.get_data()
         data = json.loads(data)
         print(data)
+
+@app.route("/")
+def home():
+    return render_template("index.html")
+
 @app.route("/<name>")
 def user(name):
     return f"Sup {name}."
-
-@app.route("/admin/")
-def admin():
-    return redirect(url_for("user", name="unauthorized user"))
 
 if __name__ == "__main__":
     app.run()
