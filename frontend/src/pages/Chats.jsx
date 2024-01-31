@@ -32,13 +32,13 @@ export default function Chats() {
     if (value === "AIResponse") {
       //Add code for calling backend and getting image
       //Currently having static images being randomized
-      if (Math.floor(Math.random() * (3 - 1 + 1)) + 1 == 1) {
+      if (Math.floor(Math.random() * (3 - 1 + 1)) + 1 === 1) {
         changeImg("../../images/Robot.jpg");
       }
-      else if (Math.floor(Math.random() * (3 - 1 + 1)) + 1 == 2) {
+      else if (Math.floor(Math.random() * (3 - 1 + 1)) + 1 === 2) {
         changeImg("../../images/Robot2.jpg");
       }
-      else if (Math.floor(Math.random() * (3 - 1 + 1)) + 1 == 3) {
+      else if (Math.floor(Math.random() * (3 - 1 + 1)) + 1 === 3) {
         changeImg("../../images/Robot3.jpg");
       }
         if (imageEnabled === "visible") {
