@@ -8,6 +8,8 @@ export default function Chats() {
   const [imageSrc, changeImg] = useState("../../images/Robot.jpg");
   const visualizeImage = {
     visibility: imageEnabled,
+    width: "300px",
+    height: "250px"
     
   }
   //To change image either change this value or u can overwrite the image it is pointing to
@@ -60,8 +62,8 @@ export default function Chats() {
   return (
     <>
       <div className="mainScreen container d-flex flex-row justify-content-center">
-      <div className="colextra d-flex flex-column col-md-4 align-items-center"></div>
-        <div className="col1 d-flex flex-column col-md-4 align-items-center">
+      
+        <div className="col1 d-flex flex-column align-items-center">
       <center><h2>Chat History</h2></center>
       <div className="allChats container d-flex flex-column align-items-center" style={{border:"10px", height:"380px",overflowX:"hidden", overflowY:"auto"}}>
         {chatList.map((data, index) => {
@@ -73,14 +75,15 @@ export default function Chats() {
               <div className="aiResponse container d-flex flex-row justify-content-center">
                 <p>ChatGPT:&nbsp;&nbsp;</p><p>{data.AIMsg}</p><Button className="visualizeButton" onClick={visualizeChat(data.AIMsg)}><img className="visualizeImg" src="../../images/visualize.png" alt="Visualize Button"></img></Button>
               </div>
+              <div className="col2 d-flex flex-column align-items-center">
+                <img className="visualizedImage" src={imageSrc} alt="Visualized Result" style={visualizeImage}></img>
+              </div>
             </React.Fragment>
         )
       })}
           </div>
         </div>
-        <div className="col2 d-flex flex-column col-md-4 align-items-end">
-          <img className="visualizedImage" src={imageSrc} alt="Visualized Result" style={visualizeImage}></img>
-        </div>
+        
         </div>
       <div className="chatbar container d-flex flex-row align-items-center justify-content-center">
             <div className="TextBox align-self-center p-2 w-30 mw-50" style={{height:"55px"}}>
