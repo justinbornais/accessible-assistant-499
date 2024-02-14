@@ -4,10 +4,10 @@ import { Button } from 'react-bootstrap';
 export default function Chats() {
   const [chatList, setChatList] = useState(JSON.parse(window.localStorage.getItem('chats')));
   const [question, setQuestion] = useState("");
-  const [imageEnabled, toggleImage] = useState("hidden");
+  const [imageEnabled, toggleImage] = useState("none");
   const [imageSrc, changeImg] = useState("../../images/Robot.jpg");
   const visualizeImage = {
-    visibility: imageEnabled,
+    display: imageEnabled,
     width: "300px",
     height: "250px"
     
@@ -39,7 +39,6 @@ export default function Chats() {
 
 
   const visualizeChat = value => () => {
-    if (value === "AIResponse") {
       //Add code for calling backend and getting image
       //Currently having static images being randomized
       if (Math.floor(Math.random() * (3 - 1 + 1)) + 1 === 1) {
@@ -51,12 +50,11 @@ export default function Chats() {
       else if (Math.floor(Math.random() * (3 - 1 + 1)) + 1 === 3) {
         changeImg("../../images/Robot3.jpg");
       }
-        if (imageEnabled === "visible") {
-            toggleImage("hidden");
+        if (imageEnabled === "block") {
+            toggleImage("none");
         }
         else {
-            toggleImage("visible");
-        }
+            toggleImage("block");
       }
   }
   return (
