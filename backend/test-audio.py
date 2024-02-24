@@ -12,7 +12,8 @@ syn = Synthesizer(
     tts_checkpoint=model_path,
     tts_config_path=config_path,
     vocoder_checkpoint=voc_path,
-    vocoder_config=voc_config_path
+    vocoder_config=voc_config_path,
+    verbose=False
 )
 
 text = "Our whole universe was in a hot, dense state. Then nearly fourteen billion years ago expansion started, wait.... The earth began to cool, the autotrophs began to drool. Neanderthals developed tools. We built a wall (we built the pyramids). Math, science, history, unraveling the mysteries That all started with the big bang."
