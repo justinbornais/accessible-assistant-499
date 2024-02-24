@@ -26,10 +26,10 @@ export default function Chats() {
         },
         body: JSON.stringify({ question: question })
       });
-      const data = await response.json()
-      console.log(response, data['answer']);
-      const newList = chatList.concat({ userName: 'Guest', userMsg: question, AIMsg: data['answer'] }); //Add new prompt
-      window.localStorage.setItem('chats', JSON.stringify(newList)); //Add new prompt to local storage
+      const data = await response.json();
+      console.log(response, data['answer'], data['response-id']);
+      const newList = chatList.concat({ userName: 'Guest', userMsg: question, AIMsg: data['answer'], id: data['response-id'] }); // Add new prompt.
+      window.localStorage.setItem('chats', JSON.stringify(newList)); // Add new prompt to local storage
       setChatList(JSON.parse(window.localStorage.getItem('chats'))); //Set current state to the new local storage list
       setQuestion("");
     } catch (error) {

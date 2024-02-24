@@ -5,6 +5,9 @@ import os
 from openai import OpenAI
 from TTS.utils.manage import ModelManager
 from TTS.utils.synthesizer import Synthesizer
+import asyncio
+from threading import Thread
+from generating_tts import generate_tts, first_letters, start_tts_generation
 
 # Setup OpenAI key.
 os.environ["OPENAI_API_KEY"] = "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"
@@ -47,8 +50,11 @@ def askGPT():
     #         },
     #     ],
     # )
-
-    response = {'answer': 'the wff is a subwff of itself because the wff contains itself'}
+    answer = "The wff is a subwff of itself because the wff contains itself."
+    id = first_letters(answer)
+    response = {'answer': answer, "response-id": id}
+    Thread(target=start_tts_generation, args=(tts_processes,syn,answer,id,)).start()
+    
     return response
     return(completion.choices[0].message.content)
 
