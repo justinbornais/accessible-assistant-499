@@ -42,7 +42,7 @@ def get_img(tts_processes, syn, id):
     print(field)
     while field:
         if field["status"] == "done":
-            enc = b64encode(open(f"audio/{id}.wav", "rb").read())
+            enc = b64encode(open(f"audio/{id}.wav", "rb").read()).decode('utf-8')
             return str(enc)
         elif field["status"] == "processing":
             time.sleep(0.5)

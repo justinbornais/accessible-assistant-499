@@ -46,12 +46,11 @@ export default function Chats() {
         }
       });
       const data = await response.json();
-      console.log(data, data["data"]);
 
-      const audio = document.getElementById("id");
-      audio.src = `data:audio/mp3;base64,${data["data"]}`;
-      audio.load();
-      audio.play();
+      let audioElm = document.getElementById(id);
+      audioElm.src = `data:audio/wav;base64,${data["data"]}`;
+      // const audio = new Audio(audioElm.src);
+      audioElm.play();
     } catch (error) {
       console.error(error);
     }
@@ -98,7 +97,7 @@ export default function Chats() {
                 </Button>
                 <Button className="visualizeButton" onClick={async () => {getAudio(data.id)}}>
                   <img className="visualizeImg" src="../../images/audio.png" alt="Visualize Button"></img>
-                  <audio className="chatAudio" src="" id={data.id}></audio>
+                  <audio className="chatAudio" src="" controls id={data.id} type="audio/wav" style={{display: "none"}}></audio>
                 </Button>
               </div>
               <div className="col2 d-flex flex-column align-items-center">

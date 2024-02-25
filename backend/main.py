@@ -40,6 +40,7 @@ def getAudio():
     id = request.args.get("id")
     print(id)
     data = get_img(tts_processes, syn, id)
+    print(data[:10])
     return {'data': data}
 
 @app.route("/chats/ask", methods=['POST'])
@@ -57,7 +58,7 @@ def askGPT():
     #         },
     #     ],
     # )
-    answer = "The wff is a subwff of itself because the wff contains itself."
+    answer = "The well-formed formula is a sub well-formed formula of itself because the well-formed formula contains itself."
     id = first_letters(answer)
     response = {'answer': answer, "response-id": id}
     tts_processes[id] = {"status": "msg", "path": id, "answer": answer}
