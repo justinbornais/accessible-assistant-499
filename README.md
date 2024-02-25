@@ -1,10 +1,15 @@
 # Accessible Assistant
 Accessible Assistant is a website that expands the usability of ChatGPT to those with various disabilities such as dyslexia.
 
-# Code Structure
+## Setup Code
+After cloning this repository, the submodule TTS needs to be setup. Navigate to the directory `backend/TTS` and run `git fetch`, followed by `git checkout main`.
+
+Doing this should properly load the submodule.
+
+## Code Structure
 The code is structured with frontend and backend systems. The backend uses Flask (Python) and the frontend uses React.
 
-## Frontend Structure
+### Frontend Structure
 As with any React program, there is a `src` folder containing all the relevant code. A `components` folder will be for
 storing different React components, such as a navbar, footer, side panel, chat boxes, forms, etc.
 
@@ -16,5 +21,5 @@ The only global content (as of now) is the navbar and footer, to prevent rerende
 
 There is also a `public` directory at the same level as the `src` directory. This will contain static assets.
 
-## Backend Structure
+### Backend Structure
 This shall be done one day!
