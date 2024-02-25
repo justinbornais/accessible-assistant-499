@@ -25,14 +25,15 @@ pip install -r requirements.txt
 
 To install with a virtual environment, run the following in the terminal **in the root directory** (not in the `backend` directory, or VSCode intellisense won't work):
 ```cmd
-pip install virtualenv # If you have Python 3.11.0 installed (recommended), run py -3.11 -m pip install virtualenv instead.
-venv ./venv # Similarly, py -3.11 -m venv ./venv
-.\venv\Scripts\activate # Run in command prompt, not in Powershell.
+pip install virtualenv
+venv ./venv
+.\venv\Scripts\activate
 
 cd backend
-pip install -r requirements.txt # Installs all dependencies.
-pip install -e ./TTS # Installs the TTS submodule.
+pip install -r requirements.txt
 ```
+
+**Note:** If you have Python 3.11.0 installed (recommended) but your version of Python is newer by default, run `py -3.11 -m ...` for the first two commands.
 
 Errors about "conflicting dependencies" should not cause runtime issues. However, if you're using the incorrect version of Python (specified above), or if you're missing C++14 or higher, then you may get a more serious error that prevents TTS from being installed.
 
