@@ -26,12 +26,31 @@ export default function Chats() {
         },
         body: JSON.stringify({ question: question })
       });
-      const data = await response.json()
-      console.log(response, data['answer']);
-      const newList = chatList.concat({ userName: 'Guest', userMsg: question, AIMsg: data['answer'] }); //Add new prompt
-      window.localStorage.setItem('chats', JSON.stringify(newList)); //Add new prompt to local storage
+      const data = await response.json();
+      console.log(response, data['answer'], data['response-id']);
+      const newList = chatList.concat({ userName: 'Guest', userMsg: question, AIMsg: data['answer'], id: data['response-id'] }); // Add new prompt.
+      window.localStorage.setItem('chats', JSON.stringify(newList)); // Add new prompt to local storage
       setChatList(JSON.parse(window.localStorage.getItem('chats'))); //Set current state to the new local storage list
       setQuestion("");
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const getAudio = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:5000/chats/get-audio?id=${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const data = await response.json();
+
+      let audioElm = document.getElementById(id);
+      audioElm.src = `data:audio/wav;base64,${data["data"]}`;
+      // const audio = new Audio(audioElm.src);
+      audioElm.play();
     } catch (error) {
       console.error(error);
     }
@@ -41,13 +60,13 @@ export default function Chats() {
   const visualizeChat = value => () => {
       //Add code for calling backend and getting image
       //Currently having static images being randomized
-      if (Math.floor(Math.random() * (3 - 1 + 1)) + 1 === 1) {
+      if (Math.floor(Math.random() * (3)) + 1 === 1) {
         changeImg("../../images/Robot.jpg");
       }
-      else if (Math.floor(Math.random() * (3 - 1 + 1)) + 1 === 2) {
+      else if (Math.floor(Math.random() * (3)) + 1 === 2) {
         changeImg("../../images/Robot2.jpg");
       }
-      else if (Math.floor(Math.random() * (3 - 1 + 1)) + 1 === 3) {
+      else if (Math.floor(Math.random() * (3)) + 1 === 3) {
         changeImg("../../images/Robot3.jpg");
       }
         if (imageEnabled === "block") {
@@ -71,7 +90,15 @@ export default function Chats() {
                 <p>{data.userName}:&nbsp;&nbsp;</p><p>{data.userMsg}</p>
               </div>
               <div className="aiResponse container d-flex flex-row justify-content-center">
-                <p>ChatGPT:&nbsp;&nbsp;</p><p>{data.AIMsg}</p><Button className="visualizeButton" onClick={visualizeChat(data.AIMsg)}><img className="visualizeImg" src="../../images/visualize.png" alt="Visualize Button"></img></Button>
+                <p>ChatGPT:&nbsp;&nbsp;</p>
+                <p>{data.AIMsg}</p>
+                <Button className="visualizeButton" onClick={visualizeChat(data.AIMsg)}>
+                  <img className="visualizeImg" src="../../images/visualize.png" alt="Visualize Button"></img>
+                </Button>
+                <Button className="visualizeButton" onClick={async () => {getAudio(data.id)}}>
+                  <img className="visualizeImg" src="../../images/audio.png" alt="Visualize Button"></img>
+                  <audio className="chatAudio" src="" controls id={data.id} type="audio/wav" style={{display: "none"}}></audio>
+                </Button>
               </div>
               <div className="col2 d-flex flex-column align-items-center">
                 <img className="visualizedImage" src={imageSrc} alt="Visualized Result" style={visualizeImage}></img>

@@ -1,6 +1,9 @@
 # React
 node_modules/
 
+# Audio
+*.wav
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
