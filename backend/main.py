@@ -17,8 +17,11 @@ client = OpenAI()
 app = Flask(__name__)
 CORS(app)
 
+if not os.path.exists("audio"):
+    os.makedirs("audio")
+
 # Setup the TTS model.
-model_json_path = "./TTS/TTS/.models.json"
+model_json_path = "./.models.json"
 model_manager = ModelManager(model_json_path)
 model_name = "tacotron2-DCA"
 
