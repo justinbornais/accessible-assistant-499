@@ -7,7 +7,7 @@ from TTS.utils.manage import ModelManager
 from TTS.utils.synthesizer import Synthesizer
 import asyncio
 from threading import Thread
-from generating_tts import generate_tts, first_letters, start_tts_generation
+from generating_tts import first_letters, start_tts_generation, get_img
 
 # Setup OpenAI key.
 os.environ["OPENAI_API_KEY"] = "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"
@@ -35,6 +35,13 @@ syn = Synthesizer(
 # Setup dictionary of TTS processes.
 tts_processes = dict()
 
+@app.route("/chats/get-audio", methods=['GET'])
+def getAudio():
+    id = request.args.get("id")
+    print(id)
+    data = get_img(tts_processes, syn, id)
+    return {'data': data}
+
 @app.route("/chats/ask", methods=['POST'])
 def askGPT():
     message = request.json
@@ -53,7 +60,8 @@ def askGPT():
     answer = "The wff is a subwff of itself because the wff contains itself."
     id = first_letters(answer)
     response = {'answer': answer, "response-id": id}
-    Thread(target=start_tts_generation, args=(tts_processes,syn,answer,id,)).start()
+    tts_processes[id] = {"status": "msg", "path": id, "answer": answer}
+    Thread(target=start_tts_generation, args=(tts_processes,syn,id,)).start()
     
     return response
     return(completion.choices[0].message.content)

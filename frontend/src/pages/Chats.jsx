@@ -37,17 +37,37 @@ export default function Chats() {
     }
   }
 
+  const getAudio = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:5000/chats/get-audio?id=${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const data = await response.json();
+      console.log(data, data["data"]);
+
+      const audio = document.getElementById("id");
+      audio.src = `data:audio/mp3;base64,${data["data"]}`;
+      audio.load();
+      audio.play();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
 
   const visualizeChat = value => () => {
       //Add code for calling backend and getting image
       //Currently having static images being randomized
-      if (Math.floor(Math.random() * (3 - 1 + 1)) + 1 === 1) {
+      if (Math.floor(Math.random() * (3)) + 1 === 1) {
         changeImg("../../images/Robot.jpg");
       }
-      else if (Math.floor(Math.random() * (3 - 1 + 1)) + 1 === 2) {
+      else if (Math.floor(Math.random() * (3)) + 1 === 2) {
         changeImg("../../images/Robot2.jpg");
       }
-      else if (Math.floor(Math.random() * (3 - 1 + 1)) + 1 === 3) {
+      else if (Math.floor(Math.random() * (3)) + 1 === 3) {
         changeImg("../../images/Robot3.jpg");
       }
         if (imageEnabled === "block") {
@@ -71,7 +91,15 @@ export default function Chats() {
                 <p>{data.userName}:&nbsp;&nbsp;</p><p>{data.userMsg}</p>
               </div>
               <div className="aiResponse container d-flex flex-row justify-content-center">
-                <p>ChatGPT:&nbsp;&nbsp;</p><p>{data.AIMsg}</p><Button className="visualizeButton" onClick={visualizeChat(data.AIMsg)}><img className="visualizeImg" src="../../images/visualize.png" alt="Visualize Button"></img></Button>
+                <p>ChatGPT:&nbsp;&nbsp;</p>
+                <p>{data.AIMsg}</p>
+                <Button className="visualizeButton" onClick={visualizeChat(data.AIMsg)}>
+                  <img className="visualizeImg" src="../../images/visualize.png" alt="Visualize Button"></img>
+                </Button>
+                <Button className="visualizeButton" onClick={async () => {getAudio(data.id)}}>
+                  <img className="visualizeImg" src="../../images/audio.png" alt="Visualize Button"></img>
+                  <audio className="chatAudio" src="" id={data.id}></audio>
+                </Button>
               </div>
               <div className="col2 d-flex flex-column align-items-center">
                 <img className="visualizedImage" src={imageSrc} alt="Visualized Result" style={visualizeImage}></img>
