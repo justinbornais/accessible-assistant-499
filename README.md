@@ -25,8 +25,8 @@ pip install -r requirements.txt
 
 To install with a virtual environment, run the following in the terminal **in the root directory** (not in the `backend` directory, or VSCode intellisense won't work):
 ```cmd
-pip install virtualenv
-venv ./venv
+py -3.11 -m pip install virtualenv
+py -3.11 -m venv ./venv
 .\venv\Scripts\activate
 
 cd backend

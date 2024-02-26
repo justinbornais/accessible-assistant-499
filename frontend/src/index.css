@@ -70,7 +70,10 @@ p{
   }
 }
 .visualizeButton{
-  margin-right:-20px;
+  justify-content: center;
+  max-height: 50px;
+  max-width: 50px;
+  margin: 5px;
 }
 .visualizeImg{
   width:30px;

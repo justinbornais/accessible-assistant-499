@@ -1,17 +1,33 @@
 
 import React from "react";
 import { Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 
 export default function ChatArea() {
     var currentUserResponse = "";
     const handleChange = event => {
         currentUserResponse = event.target.value;
     }
-    const addChat = () => {
-        const storedChats = [];
-        const newList = storedChats.concat({ userName: 'Guest', userMsg: currentUserResponse, AIMsg: 'AIResponse' });
-        localStorage.setItem('chats', JSON.stringify(newList));
+    const addChat = async () => {
+        const storedChats = JSON.parse(window.localStorage.getItem('chats'));
+        
+        try {
+            const response = await fetch('http://localhost:5000/chats/ask', {
+              'method': 'POST',
+              headers: {
+                'Content-Type':'application/json'
+              },
+              body: JSON.stringify({ question: currentUserResponse })
+            });
+            const data = await response.json();
+            console.log(response, data['answer'], data['response-id']);
+            const newList = storedChats.concat({ userName: 'Guest', userMsg: currentUserResponse, AIMsg: data['answer'] });
+            window.localStorage.setItem('chats', JSON.stringify(newList));
+          } catch (error) {
+            console.error(error);
+        }
+        finally {
+            window.location.href = '/chats';
+        }
     }
     return (
         <div className="chatsbar container d-flex flex-column align-items-center justify-content-center h-100">
@@ -28,11 +44,9 @@ export default function ChatArea() {
                 }}/>
             </div>
             <div className="SubmitBtn align-self-center p-2">
-                <Link to="/chats">
                     <Button onClick={addChat}>
                         Ask ChatGPT
                     </Button>
-                </Link>
             </div>
         </div>
     )

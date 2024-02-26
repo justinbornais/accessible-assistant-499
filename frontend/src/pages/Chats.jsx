@@ -1,17 +1,12 @@
-import React, {useState} from "react";
+import React, {useState,useRef} from "react";
 import { Button } from 'react-bootstrap';
 //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
 export default function Chats() {
   const [chatList, setChatList] = useState(JSON.parse(window.localStorage.getItem('chats')));
   const [question, setQuestion] = useState("");
-  const [imageEnabled, toggleImage] = useState("none");
-  const [imageSrc, changeImg] = useState("../../images/Robot.jpg");
-  const visualizeImage = {
-    display: imageEnabled,
-    width: "300px",
-    height: "250px"
-    
-  }
+  const [imageEnabled, toggleImage] = useState(() => chatList.map(() => false));
+  const [imageSrc, changeImg] = useState(() => chatList.map(() => "../../images/Robot.jpg"));
+  const imgRefs = useRef(chatList.map(() => React.createRef()));
   //To change image either change this value or u can overwrite the image it is pointing to
   const handleChange = event => {
     setQuestion(event.target.value);
@@ -57,24 +52,41 @@ export default function Chats() {
   }
 
 
-  const visualizeChat = value => () => {
+  const visualizeChat =  (AIMsg,ImageId) => async () => {
       //Add code for calling backend and getting image
-      //Currently having static images being randomized
-      if (Math.floor(Math.random() * (3)) + 1 === 1) {
-        changeImg("../../images/Robot.jpg");
+    //Currently having static images being randomized
+    const img = imgRefs.current[ImageId];
+    if (img) {
+      let newImageSrc = "";
+      try {
+        const response = await fetch('http://localhost:5000/chats/generateImage', {
+          'method': 'POST',
+          headers: {
+            'Content-Type':'application/json'
+          },
+          body: JSON.stringify({ question: question })
+        });
+        const data = await response.json();
+        console.log(response, data['answer']);
+        newImageSrc = data['answer']
+        changeImg(prevState => {
+          const newState = [...prevState];
+          newState[ImageId] = newImageSrc;
+          return newState;
+        });
+      } catch (error) {
+        console.error(error);
       }
-      else if (Math.floor(Math.random() * (3)) + 1 === 2) {
-        changeImg("../../images/Robot2.jpg");
-      }
-      else if (Math.floor(Math.random() * (3)) + 1 === 3) {
-        changeImg("../../images/Robot3.jpg");
-      }
-        if (imageEnabled === "block") {
-            toggleImage("none");
-        }
-        else {
-            toggleImage("block");
-      }
+      
+      
+    }
+    console.log(AIMsg);
+      
+    toggleImage(prevState => {
+      const newState = [...prevState];
+      newState[ImageId] = !newState[ImageId];
+      return newState;
+    });
   }
   return (
     <>
@@ -82,7 +94,7 @@ export default function Chats() {
       
         <div className="col1 d-flex flex-column align-items-center">
       <center><h2>Chat History</h2></center>
-      <div className="allChats container d-flex flex-column align-items-center" style={{border:"10px", height:"380px",overflowX:"hidden", overflowY:"auto"}}>
+      <div className="allChats container d-flex flex-column align-items-center" style={{border:"10px",maxWidth: "700px", height:"380px",overflowX:"hidden", overflowY:"auto"}}>
         {chatList.map((data, index) => {
           return (
             <React.Fragment key={index}>
@@ -92,7 +104,7 @@ export default function Chats() {
               <div className="aiResponse container d-flex flex-row justify-content-center">
                 <p>ChatGPT:&nbsp;&nbsp;</p>
                 <p>{data.AIMsg}</p>
-                <Button className="visualizeButton" onClick={visualizeChat(data.AIMsg)}>
+                <Button className="visualizeButton" onClick={visualizeChat(data.AIMsg,index)}>
                   <img className="visualizeImg" src="../../images/visualize.png" alt="Visualize Button"></img>
                 </Button>
                 <Button className="visualizeButton" onClick={async () => {getAudio(data.id)}}>
@@ -101,7 +113,7 @@ export default function Chats() {
                 </Button>
               </div>
               <div className="col2 d-flex flex-column align-items-center">
-                <img className="visualizedImage" src={imageSrc} alt="Visualized Result" style={visualizeImage}></img>
+                <img className="visualizedImage" src={imageSrc[index]} alt="Visualized Result" style={{ display: imageEnabled[index] ? 'block' : 'none', width:"300px",height:"250px"}} ref={(el) => imgRefs.current[index] = el} id={index}></img>
               </div>
             </React.Fragment>
         )

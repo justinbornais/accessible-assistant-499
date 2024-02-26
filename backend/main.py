@@ -45,6 +45,14 @@ def getAudio():
     data = get_img(tts_processes, syn, id)
     print(data[:10])
     return {'data': data}
+@app.route("/chats/generateImage",methods=['POST'])
+def generateImg():
+    message = request.json
+    print(message['question'])
+    #Insert image generation API code
+    answer = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fyt3.ggpht.com%2Fa%2FAATXAJyEPVcLcgVaRS_FtRngDPJQh916rZGDEyI6fA%3Ds900-c-k-c0xffffffff-no-rj-mo&f=1&nofb=1&ipt=66f6058cc652007677362d877207a93afc81be95e5af41873715447926556b3c&ipo=images"
+    response = {'answer':answer}
+    return response
 
 @app.route("/chats/ask", methods=['POST'])
 def askGPT():
