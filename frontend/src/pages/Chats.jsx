@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 import Markdown from 'react-markdown';
 
 export default function Chats() {
-  const [chatList, setChatList] = useState(JSON.parse(window.localStorage.getItem('chats')));
+  const [chatList, setChatList] = useState(JSON.parse(window.localStorage.getItem('chats')) || []);
   const [question, setQuestion] = useState("");
   const [imageEnabled, toggleImage] = useState("none");
   const [imageSrc, changeImg] = useState("../../images/Robot.jpg");
