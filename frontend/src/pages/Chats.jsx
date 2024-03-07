@@ -91,7 +91,7 @@ export default function Chats() {
               return (
                 <React.Fragment key={index}>
                   <div className="userMessage row">
-                    <div className="col-2 col-lg-1">
+                    <div className="col-2 col-lg-1 d-flex justify-content-end">
                       <img className="visualizeImg" src="../../images/guest.png" alt="Guest"></img>
                     </div>
                     <div className="col-10 col-lg-11">
@@ -99,7 +99,7 @@ export default function Chats() {
                     </div>
                   </div>
                   <div className="aiResponse row">
-                    <div className="col-2 col-lg-1">
+                    <div className="col-2 col-lg-1 d-flex justify-content-end">
                       <img className="visualizeImg" src="../../images/robot.png" alt="AI"></img>
                     </div>
                     <div className="col-10 col-lg-9">

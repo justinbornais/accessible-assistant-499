@@ -48,7 +48,7 @@ def askGPT():
     message = request.json
     print(message)
     print(message['question'])
-    question = f"{message['question']}\n\nPlease make your answer very concise and use simple words. Surround important words with two astericks (**) and important phrases with one asterick (*). Separate every two sentences with two line breaks."
+    question = f"{message['question']}\n\nPlease make your answer very concise and use simple words. Surround important words with two asterisks (**). Separate every two sentences with two line breaks."
 
     completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
