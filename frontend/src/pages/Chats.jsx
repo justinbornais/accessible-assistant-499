@@ -79,7 +79,8 @@ export default function Chats() {
   }
   return (
     <>
-      <h2 className="text-center">Chat History</h2>
+      <h2 className="text-center">Accessible Assistant</h2>
+      {/* <h4 className="text-center">Making ChatGPT accessible to all</h4> */}
       <div className="mainScreen container-fluid px-5">
         <div className="col1 d-flex flex-column">
           <div className="allChats d-flex flex-column" style={{border:"10px"}}>
