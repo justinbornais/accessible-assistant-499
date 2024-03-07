@@ -5,13 +5,10 @@ import Markdown from 'react-markdown';
 export default function Chats() {
   const [chatList, setChatList] = useState(JSON.parse(window.localStorage.getItem('chats')) || []);
   const [question, setQuestion] = useState("");
-  const [imageEnabled, toggleImage] = useState("none");
-  const [imageSrc, changeImg] = useState("../../images/Robot.jpg");
   const visualizeImage = {
-    display: imageEnabled,
     width: "300px",
-    height: "250px"
-    
+    height: "250px",
+    display: "none"
   }
   //To change image either change this value or u can overwrite the image it is pointing to
   const handleChange = event => {
@@ -28,10 +25,9 @@ export default function Chats() {
         body: JSON.stringify({ question: question })
       });
       const data = await response.json();
-      console.log(response, data['answer'], data['response-id']);
       const newList = chatList.concat({ userName: 'Guest', userMsg: question, AIMsg: data['answer'], id: data['response-id'] }); // Add new prompt.
-      window.localStorage.setItem('chats', JSON.stringify(newList)); // Add new prompt to local storage
-      setChatList(JSON.parse(window.localStorage.getItem('chats'))); //Set current state to the new local storage list
+      window.localStorage.setItem('chats', JSON.stringify(newList)); // Add new prompt to local storage.
+      setChatList(JSON.parse(window.localStorage.getItem('chats'))); // Set current state to the new local storage list.
       setQuestion("");
     } catch (error) {
       console.error(error);
@@ -39,6 +35,11 @@ export default function Chats() {
   }
 
   const getAudio = async (id) => {
+    let audioElm = document.getElementById(id);
+    if(audioElm.getAttribute("src")) {
+      audioElm.play();
+      return;
+    }
     try {
       const response = await fetch(`http://localhost:5000/chats/get-audio?id=${id}`, {
         method: 'GET',
@@ -47,10 +48,7 @@ export default function Chats() {
         }
       });
       const data = await response.json();
-
-      let audioElm = document.getElementById(id);
       audioElm.src = `data:audio/wav;base64,${data["data"]}`;
-      // const audio = new Audio(audioElm.src);
       audioElm.play();
     } catch (error) {
       console.error(error);
@@ -58,25 +56,30 @@ export default function Chats() {
   }
 
 
-  const visualizeChat = value => () => {
-      //Add code for calling backend and getting image
-      //Currently having static images being randomized
-      if (Math.floor(Math.random() * (3)) + 1 === 1) {
-        changeImg("../../images/Robot.jpg");
-      }
-      else if (Math.floor(Math.random() * (3)) + 1 === 2) {
-        changeImg("../../images/Robot2.jpg");
-      }
-      else if (Math.floor(Math.random() * (3)) + 1 === 3) {
-        changeImg("../../images/Robot3.jpg");
-      }
-        if (imageEnabled === "block") {
-            toggleImage("none");
-        }
-        else {
-            toggleImage("block");
-      }
-  }
+  const toggleImage = (id) => {
+
+    console.log(id);
+
+    let imgTag = document.getElementById(`img-${id}`);
+
+    //Currently having static images being randomized
+    if(Math.floor(Math.random() * (3)) + 1 === 1) {
+      imgTag.src = "../../images/Robot.jpg";
+    }
+    else if (Math.floor(Math.random() * (3)) + 1 === 2) {
+      imgTag.src = "../../images/Robot2.jpg";
+    }
+    else if (Math.floor(Math.random() * (3)) + 1 === 3) {
+      imgTag.src = "../../images/Robot3.jpg";
+    }
+
+    if(imgTag.style.display === "none") {
+      imgTag.style.display = "block";
+    } else {
+      imgTag.style.display = "none";
+    }
+  };
+
   return (
     <>
       <h2 className="text-center">Accessible Assistant</h2>
@@ -103,7 +106,7 @@ export default function Chats() {
                       <Markdown>{data.AIMsg}</Markdown>
                     </div>
                     <div className="col-12 col-lg-2 text-center">
-                      <Button className="m-1" onClick={visualizeChat(data.AIMsg)}>
+                      <Button className="m-1" onClick={() => toggleImage(data.id)}>
                         <img className="visualizeImg" src="../../images/visualize.png" alt="Toggle"></img>
                       </Button>
                       <Button className="m-1" onClick={async () => {getAudio(data.id)}}>
@@ -113,7 +116,7 @@ export default function Chats() {
                     </div>
                   </div>
                   <div className="col2 d-flex flex-column align-items-center">
-                    <img className="visualizedImage" src={imageSrc} alt="Visualized Result" style={visualizeImage}></img>
+                    <img id={`img-${data.id}`} className="visualizedImage" alt="Visualized Result" style={visualizeImage}></img>
                   </div>
                 </React.Fragment>
               )

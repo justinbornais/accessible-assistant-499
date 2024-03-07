@@ -7,7 +7,7 @@ from TTS.utils.manage import ModelManager
 from TTS.utils.synthesizer import Synthesizer
 import asyncio
 from threading import Thread
-from generating_tts import first_letters, start_tts_generation, get_img
+from generating_tts import first_letters, start_tts_generation, get_audio
 
 # Setup OpenAI key.
 os.environ["OPENAI_API_KEY"] = "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"
@@ -39,7 +39,7 @@ tts_processes = dict()
 def getAudio():
     id = request.args.get("id")
     print(id)
-    data = get_img(tts_processes, syn, id)
+    data = get_audio(tts_processes, syn, id)
     print(data[:10])
     return {'data': data}
 
@@ -48,17 +48,19 @@ def askGPT():
     message = request.json
     print(message)
     print(message['question'])
+    question = f"{message['question']}\n\nPlease make your answer very concise and use simple words. Surround important words with two astericks (**) and important phrases with one asterick (*). Separate every two sentences with two line breaks."
 
-    # completion = client.chat.completions.create(
-    #     model="gpt-3.5-turbo",
-    #     messages=[
-    #         {
-    #             "role": "user",
-    #             "content": message['question'],
-    #         },
-    #     ],
-    # )
+    completion = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {
+                "role": "user",
+                "content": question,
+            },
+        ],
+    )
     answer = "The well-formed formula is a sub well-formed formula of itself because the well-formed formula contains itself."
+    answer = completion.choices[0].message.content
     id = first_letters(answer)
     response = {'answer': answer, "response-id": id}
     tts_processes[id] = {"status": "msg", "path": id, "answer": answer}
