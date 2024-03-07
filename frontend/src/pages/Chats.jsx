@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import { Button } from 'react-bootstrap';
-//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
+import Markdown from 'react-markdown';
+
 export default function Chats() {
   const [chatList, setChatList] = useState(JSON.parse(window.localStorage.getItem('chats')));
   const [question, setQuestion] = useState("");
@@ -78,53 +79,62 @@ export default function Chats() {
   }
   return (
     <>
-      <div className="mainScreen container d-flex flex-row justify-content-center">
-      
-        <div className="col1 d-flex flex-column align-items-center">
-      <center><h2>Chat History</h2></center>
-      <div className="allChats container d-flex flex-column align-items-center" style={{border:"10px", height:"380px",overflowX:"hidden", overflowY:"auto"}}>
-        {chatList.map((data, index) => {
-          return (
-            <React.Fragment key={index}>
-              <div className="userMessage container d-flex flex-row justify-content-center">
-                <p>{data.userName}:&nbsp;&nbsp;</p><p>{data.userMsg}</p>
-              </div>
-              <div className="aiResponse container d-flex flex-row justify-content-center">
-                <p>ChatGPT:&nbsp;&nbsp;</p>
-                <p>{data.AIMsg}</p>
-                <Button className="visualizeButton" onClick={visualizeChat(data.AIMsg)}>
-                  <img className="visualizeImg" src="../../images/visualize.png" alt="Visualize Button"></img>
-                </Button>
-                <Button className="visualizeButton" onClick={async () => {getAudio(data.id)}}>
-                  <img className="visualizeImg" src="../../images/audio.png" alt="Visualize Button"></img>
-                  <audio className="chatAudio" src="" controls id={data.id} type="audio/wav" style={{display: "none"}}></audio>
-                </Button>
-              </div>
-              <div className="col2 d-flex flex-column align-items-center">
-                <img className="visualizedImage" src={imageSrc} alt="Visualized Result" style={visualizeImage}></img>
-              </div>
-            </React.Fragment>
-        )
-      })}
+      <h2 className="text-center">Chat History</h2>
+      <div className="mainScreen container-fluid px-5">
+        <div className="col1 d-flex flex-column">
+          <div className="allChats d-flex flex-column" style={{border:"10px"}}>
+            {chatList.map((data, index) => {
+              return (
+                <React.Fragment key={index}>
+                  <div className="userMessage row">
+                    <div className="col-2 col-lg-1">
+                      <img className="visualizeImg" src="../../images/guest.png" alt="Guest"></img>
+                    </div>
+                    <div className="col-10 col-lg-11">
+                      <Markdown>{data.userMsg}</Markdown>
+                    </div>
+                  </div>
+                  <div className="aiResponse row">
+                    <div className="col-2 col-lg-1">
+                      <img className="visualizeImg" src="../../images/robot.png" alt="AI"></img>
+                    </div>
+                    <div className="col-10 col-lg-9">
+                      <Markdown>{data.AIMsg}</Markdown>
+                    </div>
+                    <div className="col-12 col-lg-2 text-center">
+                      <Button className="m-1" onClick={visualizeChat(data.AIMsg)}>
+                        <img className="visualizeImg" src="../../images/visualize.png" alt="Toggle"></img>
+                      </Button>
+                      <Button className="m-1" onClick={async () => {getAudio(data.id)}}>
+                        <img className="visualizeImg" src="../../images/audio.png" alt="Play Audio"></img>
+                        <audio className="chatAudio" src="" controls id={data.id} type="audio/wav" style={{display: "none"}}></audio>
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="col2 d-flex flex-column align-items-center">
+                    <img className="visualizedImage" src={imageSrc} alt="Visualized Result" style={visualizeImage}></img>
+                  </div>
+                </React.Fragment>
+              )
+            })}
           </div>
         </div>
-        
-        </div>
+      </div>
       <div className="chatbar container d-flex flex-row align-items-center justify-content-center">
-            <div className="TextBox align-self-center p-2 w-30 mw-50" style={{height:"55px"}}>
-          <input value={question} onChange={handleChange}  className="w-100 h-100" name="userQuery" placeholder="What can I help you with?"
+        <div className="TextBox align-self-center p-2 w-75 mw-50 py-3">
+          <input value={question} onChange={handleChange} className="w-100 h-100 py-3" name="userQuery" placeholder="What can I help you with?"
             style={{
               textAlignVertical: "top",
               borderColor: "#7da2a9",
               borderRadius: "10px"
             }}/>
-            </div>
-            <div className="SubmitBtn align-self-center p-2">
-                    <Button onClick={addChat}>
-                        Ask ChatGPT
-                    </Button>
-            </div>
         </div>
+        <div className="SubmitBtn align-self-center p-2">
+          <Button onClick={addChat} className="py-3">
+            Ask ChatGPT
+          </Button>
+        </div>
+      </div>
     </>
   )
 }
