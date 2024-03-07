@@ -92,7 +92,7 @@ export default function Chats() {
                 <React.Fragment key={index}>
                   <div className="userMessage row">
                     <div className="col-2 col-lg-1 d-flex justify-content-end">
-                      <img className="visualizeImg" src="../../images/guest.png" alt="Guest"></img>
+                      <img className="visualizeImg sticky-top" src="../../images/guest.png" alt="Guest"></img>
                     </div>
                     <div className="col-10 col-lg-11">
                       <Markdown>{data.userMsg}</Markdown>
@@ -100,16 +100,16 @@ export default function Chats() {
                   </div>
                   <div className="aiResponse row">
                     <div className="col-2 col-lg-1 d-flex justify-content-end">
-                      <img className="visualizeImg" src="../../images/robot.png" alt="AI"></img>
+                      <img className="visualizeImg sticky-top" src="../../images/robot.png" alt="AI"></img>
                     </div>
                     <div className="col-10 col-lg-9">
                       <Markdown>{data.AIMsg}</Markdown>
                     </div>
                     <div className="col-12 col-lg-2 text-center">
-                      <Button className="m-1" onClick={() => toggleImage(data.id)}>
+                      <Button className="m-1 sticky-top" onClick={() => toggleImage(data.id)}>
                         <img className="visualizeImg" src="../../images/visualize.png" alt="Toggle"></img>
                       </Button>
-                      <Button className="m-1" onClick={async () => {getAudio(data.id)}}>
+                      <Button className="m-1 sticky-top" onClick={async () => {getAudio(data.id)}}>
                         <img className="visualizeImg" src="../../images/audio.png" alt="Play Audio"></img>
                         <audio className="chatAudio" src="" controls id={data.id} type="audio/wav" style={{display: "none"}}></audio>
                       </Button>
