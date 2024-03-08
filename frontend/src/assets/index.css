@@ -117,6 +117,7 @@ h1 {
 .mainScreen {
   flex: 1; /* Grow to fill remaining space. */
   overflow-y: auto;
+  min-height: 50vh;
 }
 
 .chatbar {
@@ -125,4 +126,18 @@ h1 {
 
 .navbar-nav .nav-link {
   padding: var(--bs-nav-link-padding-y) 0.5rem !important;
+}
+
+/* Tutorial-related CSS. */
+#tutorial {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+#tutorial-text {
+  font-size: 1.5rem;
+  user-select: none;
 }

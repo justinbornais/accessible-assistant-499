@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import { Button, Image, Navbar, Nav } from 'react-bootstrap';
-import '../index.css'
 
 export default function AccesibilityMenu() { 
     const root = document.documentElement;
@@ -49,7 +48,7 @@ export default function AccesibilityMenu() {
 
     return (
         <Navbar bg={menuEnabled ? 'light' : ''} expand="lg" variant="light" className="d-flex flex-column justify-content-center py-0">
-            <Navbar.Brand onClick={toggleMenu}>
+            <Navbar.Brand id="accessibility-button" onClick={toggleMenu}>
                 <img className="visualizeImg" src="../../images/accesibility.png" alt="Accesibility Button"></img>
             </Navbar.Brand>
             { menuEnabled &&
@@ -57,22 +56,22 @@ export default function AccesibilityMenu() {
                     <Nav className="mr-auto flex-row">
                     {/* <Nav.Link>Profile: Default</Nav.Link> */}
                     <Nav.Link>
-                        <Button onClick={() => changeFontSize('decrease')}>
+                        <Button id="decrease-font" onClick={() => changeFontSize('decrease')}>
                             <Image src="/images/decrease-font.webp" alt="-" style={{ width: '2rem', height: '2rem'}} />
                         </Button>
                     </Nav.Link>
                     <Nav.Link>
-                        <Button onClick={() => changeFontSize('increase')}>
+                        <Button id="increase-font" onClick={() => changeFontSize('increase')}>
                             <Image src="/images/increase-font.webp" alt="+" style={{ width: '2rem', height: '2rem'}} />
                         </Button>
                     </Nav.Link>
                     <Nav.Link>
-                        <Button onClick={() => changeSpeed('decrease')}>
+                        <Button id="decrease-speed" onClick={() => changeSpeed('decrease')}>
                             <Image src="/images/slower.png" alt="-" style={{ width: '2rem', height: '2rem'}} />
                         </Button>
                     </Nav.Link>
                     <Nav.Link>
-                        <Button onClick={() => changeSpeed('increase')}>
+                        <Button id="increase-speed" onClick={() => changeSpeed('increase')}>
                             <Image src="/images/faster.png" alt="+" style={{ width: '2rem', height: '2rem'}} />
                         </Button>
                     </Nav.Link>
