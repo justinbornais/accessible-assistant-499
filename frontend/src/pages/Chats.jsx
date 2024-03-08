@@ -124,10 +124,10 @@ export default function Chats() {
             })}
           </div>
         </div>
-        {chatList.length === 0 && <Tutorial />}
+        {chatList.length === 0 && <div style={{width: "100px", height: "100px"}}></div>}
       </div>
       <div className="chatbar container d-flex flex-row align-items-center justify-content-center">
-        <div className="TextBox align-self-center p-2 w-75 mw-50 py-2">
+        <div className="TextBox align-self-center p-2 w-75 mw-50 py-2" id="type-chat">
           <input value={question} onChange={handleChange} className="w-100 h-100 py-3" name="userQuery" placeholder="What can I help you with?"
             style={{
               textAlignVertical: "top",
@@ -135,7 +135,7 @@ export default function Chats() {
               borderRadius: "10px"
             }}/>
         </div>
-        <div className="SubmitBtn align-self-center p-2">
+        <div className="SubmitBtn align-self-center p-2" id="submit-chat">
           <Button onClick={addChat} className="py-3">
             Ask ChatGPT
           </Button>

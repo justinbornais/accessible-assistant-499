@@ -1,10 +1,13 @@
-import './index.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Chat from './pages/Chat';
 import Chats from './pages/Chats';
+import Tutorial from './components/Tutorial';
 import AccesibilityMenu from './components/AccesibilityMenu';
+import { useState } from 'react';
 
 function App() {
+
+  const [chatList, setChatList] = useState(JSON.parse(window.localStorage.getItem('chats')) || []);
   return (
     <Router>
       <AccesibilityMenu />
@@ -14,8 +17,8 @@ function App() {
           <Route path='/chats/:id' element={<Chat />} />
           <Route exact path='/' element={<Chats />} />
         </Routes>
-
-      </div> 
+      </div>
+      {chatList.length === 0 && <Tutorial />}
     </Router>
   );
 }
