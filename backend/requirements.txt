@@ -160,7 +160,6 @@ torchvision==0.15.2
 tqdm==4.66.1
 trainer==0.0.36
 transformers==4.38.1
--e git+https://github.com/coqui-ai/TTS@aaabde02a5589a26ac74d3a007e47410bf015fff#egg=TTS&subdirectory=..\..\..\backend\tts
 typer==0.9.0
 typing_extensions==4.9.0
 tzdata==2024.1

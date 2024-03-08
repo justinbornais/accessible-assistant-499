@@ -29,7 +29,7 @@ async def generate_tts(tts_processes, syn: Synthesizer, id: str):
         text_to_synthesize = re.sub(r'[*&^$#@]', '', tts_processes[id]["answer"])
         text_to_synthesize = text_to_synthesize.replace("\n", ".").replace("\r", "").replace("...", ".").replace("..", ". ").replace(". .", ". ")
         print(f"Synthesizing text: {text_to_synthesize}")
-        outputs = syn.tts(text_to_synthesize, split_sentences=True)
+        outputs = syn.tts(text_to_synthesize, split_sentences=True, max_decoder_steps=10000)
         syn.save_wav(outputs, wav_path)
         # sound = pydub.AudioSegment.from_wav(abs_wav_path)
         # sound.export(f"audio/{id}.mp3", format="mp3")
