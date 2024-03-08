@@ -52,10 +52,9 @@ export default function AccesibilityMenu() {
             <Navbar.Brand onClick={toggleMenu}>
                 <img className="visualizeImg" src="../../images/accesibility.png" alt="Accesibility Button"></img>
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
             { menuEnabled &&
                 <Navbar.Collapse id="basic-navbar-nav" className={menuEnabled ? 'show' : ''}>
-                    <Nav className="mr-auto">
+                    <Nav className="mr-auto flex-row">
                     {/* <Nav.Link>Profile: Default</Nav.Link> */}
                     <Nav.Link>
                         <Button onClick={() => changeFontSize('decrease')}>
