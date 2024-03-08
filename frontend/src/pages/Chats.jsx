@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import { Button } from 'react-bootstrap';
 import Markdown from 'react-markdown';
-import Tutorial from "../components/Tutorial";
 
 export default function Chats() {
   const [chatList, setChatList] = useState(JSON.parse(window.localStorage.getItem('chats')) || []);

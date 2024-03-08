@@ -3,11 +3,10 @@ import Chat from './pages/Chat';
 import Chats from './pages/Chats';
 import Tutorial from './components/Tutorial';
 import AccesibilityMenu from './components/AccesibilityMenu';
-import { useState } from 'react';
 
 function App() {
 
-  const [chatList, setChatList] = useState(JSON.parse(window.localStorage.getItem('chats')) || []);
+  const chatList = JSON.parse(window.localStorage.getItem('chats')) || [];
   return (
     <Router>
       <AccesibilityMenu />
