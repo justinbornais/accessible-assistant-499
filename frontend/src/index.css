@@ -124,6 +124,10 @@ h1 {
   flex-shrink: 0; /* Don't shrink. */
 }
 
+.navbar-nav .nav-link {
+  padding: var(--bs-nav-link-padding-y) 0.5rem !important;
+}
+
 /* Tutorial-related CSS. */
 /* .tutorial {
   width: 100vw;

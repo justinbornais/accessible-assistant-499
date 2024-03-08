@@ -127,7 +127,7 @@ export default function Chats() {
         {chatList.length === 0 && <Tutorial />}
       </div>
       <div className="chatbar container d-flex flex-row align-items-center justify-content-center">
-        <div className="TextBox align-self-center p-2 w-75 mw-50 py-3">
+        <div className="TextBox align-self-center p-2 w-75 mw-50 py-2">
           <input value={question} onChange={handleChange} className="w-100 h-100 py-3" name="userQuery" placeholder="What can I help you with?"
             style={{
               textAlignVertical: "top",
