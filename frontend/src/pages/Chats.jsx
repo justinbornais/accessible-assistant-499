@@ -1,6 +1,7 @@
-import React, {useState,useRef} from "react";
+import React, {useState} from "react";
 import { Button } from 'react-bootstrap';
 import Markdown from 'react-markdown';
+import Tutorial from "../components/Tutorial";
 
 export default function Chats() {
   const [chatList, setChatList] = useState(JSON.parse(window.localStorage.getItem('chats')) || []);
@@ -123,6 +124,7 @@ export default function Chats() {
             })}
           </div>
         </div>
+        {chatList.length === 0 && <Tutorial />}
       </div>
       <div className="chatbar container d-flex flex-row align-items-center justify-content-center">
         <div className="TextBox align-self-center p-2 w-75 mw-50 py-3">

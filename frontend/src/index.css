@@ -117,8 +117,15 @@ h1 {
 .mainScreen {
   flex: 1; /* Grow to fill remaining space. */
   overflow-y: auto;
+  min-height: 50vh;
 }
 
 .chatbar {
   flex-shrink: 0; /* Don't shrink. */
 }
+
+/* Tutorial-related CSS. */
+/* .tutorial {
+  width: 100vw;
+  height: 100vh;
+} */
