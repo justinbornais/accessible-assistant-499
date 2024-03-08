@@ -1,0 +1,3 @@
+"How does a heart beat work?"
+Response:
+**The heart** has **four chambers** that contract and relax in a specific sequence to pump **blood** throughout the body. This sequence is controlled by electrical signals that originate in the **sinoatrial (SA) node** and travel through the **atrioventricular (AV) node** to stimulate contraction. This process repeats to create a rhythmic heartbeat.

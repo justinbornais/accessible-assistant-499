@@ -37,9 +37,11 @@ body {
   display: flex;
   flex-flow: column;
   min-height: 100vh;
+  max-height: 100vh;
 }
-p{
-  color:black;
+
+p {
+  color: black;
   font-size: var(--fontsize);
 }
 
@@ -69,17 +71,14 @@ p{
     margin-top: 5px;
   }
 }
-.visualizeButton{
-  justify-content: center;
-  max-height: 50px;
-  max-width: 50px;
-  margin: 5px;
+.visualizeButton {
+  margin-right:-20px;
 }
-.visualizeImg{
-  width:30px;
-  height:30px;
+.visualizeImg {
+  width:2rem;
+  height:2rem;
 }
-.visualizedImage{
+.visualizedImage {
   
   width:70%;
   height:70%;
@@ -93,6 +92,9 @@ p{
 .site-content {
   flex: 1 1 auto;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .footer {
@@ -100,7 +102,7 @@ p{
   font-size: 10px !important;
 }
 
-.btn{
+.btn {
   background-color: var(--primary);
   outline-color: var(--primary);
   border-style: none;
@@ -110,4 +112,13 @@ p{
 h1 {
   font-size: 3rem;
   text-align: center;
+}
+
+.mainScreen {
+  flex: 1; /* Grow to fill remaining space. */
+  overflow-y: auto;
+}
+
+.chatbar {
+  flex-shrink: 0; /* Don't shrink. */
 }

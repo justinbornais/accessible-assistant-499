@@ -1,12 +1,15 @@
 import React, {useState,useRef} from "react";
 import { Button } from 'react-bootstrap';
-//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
+import Markdown from 'react-markdown';
+
 export default function Chats() {
-  const [chatList, setChatList] = useState(JSON.parse(window.localStorage.getItem('chats')));
+  const [chatList, setChatList] = useState(JSON.parse(window.localStorage.getItem('chats')) || []);
   const [question, setQuestion] = useState("");
-  const [imageEnabled, toggleImage] = useState(() => chatList.map(() => false));
-  const [imageSrc, changeImg] = useState(() => chatList.map(() => "../../images/Robot.jpg"));
-  const imgRefs = useRef(chatList.map(() => React.createRef()));
+  const visualizeImage = {
+    width: "300px",
+    height: "250px",
+    display: "none"
+  }
   //To change image either change this value or u can overwrite the image it is pointing to
   const handleChange = event => {
     setQuestion(event.target.value);
@@ -22,10 +25,9 @@ export default function Chats() {
         body: JSON.stringify({ question: question })
       });
       const data = await response.json();
-      console.log(response, data['answer'], data['response-id']);
       const newList = chatList.concat({ userName: 'Guest', userMsg: question, AIMsg: data['answer'], id: data['response-id'] }); // Add new prompt.
-      window.localStorage.setItem('chats', JSON.stringify(newList)); // Add new prompt to local storage
-      setChatList(JSON.parse(window.localStorage.getItem('chats'))); //Set current state to the new local storage list
+      window.localStorage.setItem('chats', JSON.stringify(newList)); // Add new prompt to local storage.
+      setChatList(JSON.parse(window.localStorage.getItem('chats'))); // Set current state to the new local storage list.
       setQuestion("");
     } catch (error) {
       console.error(error);
@@ -33,6 +35,11 @@ export default function Chats() {
   }
 
   const getAudio = async (id) => {
+    let audioElm = document.getElementById(id);
+    if(audioElm.getAttribute("src")) {
+      audioElm.play();
+      return;
+    }
     try {
       const response = await fetch(`http://localhost:5000/chats/get-audio?id=${id}`, {
         method: 'GET',
@@ -41,10 +48,7 @@ export default function Chats() {
         }
       });
       const data = await response.json();
-
-      let audioElm = document.getElementById(id);
       audioElm.src = `data:audio/wav;base64,${data["data"]}`;
-      // const audio = new Audio(audioElm.src);
       audioElm.play();
     } catch (error) {
       console.error(error);
@@ -52,91 +56,89 @@ export default function Chats() {
   }
 
 
-  const visualizeChat =  (AIMsg,ImageId) => async () => {
-      //Add code for calling backend and getting image
+  const toggleImage = (id) => {
+
+    console.log(id);
+
+    let imgTag = document.getElementById(`img-${id}`);
+
     //Currently having static images being randomized
-    const img = imgRefs.current[ImageId];
-    if (img) {
-      let newImageSrc = "";
-      try {
-        const response = await fetch('http://localhost:5000/chats/generateImage', {
-          'method': 'POST',
-          headers: {
-            'Content-Type':'application/json'
-          },
-          body: JSON.stringify({ question: question })
-        });
-        const data = await response.json();
-        console.log(response, data['answer']);
-        newImageSrc = data['answer']
-        changeImg(prevState => {
-          const newState = [...prevState];
-          newState[ImageId] = newImageSrc;
-          return newState;
-        });
-      } catch (error) {
-        console.error(error);
-      }
-      
-      
+    if(Math.floor(Math.random() * (3)) + 1 === 1) {
+      imgTag.src = "../../images/Robot.jpg";
     }
-    console.log(AIMsg);
-      
-    toggleImage(prevState => {
-      const newState = [...prevState];
-      newState[ImageId] = !newState[ImageId];
-      return newState;
-    });
-  }
+    else if (Math.floor(Math.random() * (3)) + 1 === 2) {
+      imgTag.src = "../../images/Robot2.jpg";
+    }
+    else if (Math.floor(Math.random() * (3)) + 1 === 3) {
+      imgTag.src = "../../images/Robot3.jpg";
+    }
+
+    if(imgTag.style.display === "none") {
+      imgTag.style.display = "block";
+    } else {
+      imgTag.style.display = "none";
+    }
+  };
+
   return (
     <>
-      <div className="mainScreen container d-flex flex-row justify-content-center">
-      
-        <div className="col1 d-flex flex-column align-items-center">
-      <center><h2>Chat History</h2></center>
-      <div className="allChats container d-flex flex-column align-items-center" style={{border:"10px",maxWidth: "700px", height:"380px",overflowX:"hidden", overflowY:"auto"}}>
-        {chatList.map((data, index) => {
-          return (
-            <React.Fragment key={index}>
-              <div className="userMessage container d-flex flex-row justify-content-center">
-                <p>{data.userName}:&nbsp;&nbsp;</p><p>{data.userMsg}</p>
-              </div>
-              <div className="aiResponse container d-flex flex-row justify-content-center">
-                <p>ChatGPT:&nbsp;&nbsp;</p>
-                <p>{data.AIMsg}</p>
-                <Button className="visualizeButton" onClick={visualizeChat(data.AIMsg,index)}>
-                  <img className="visualizeImg" src="../../images/visualize.png" alt="Visualize Button"></img>
-                </Button>
-                <Button className="visualizeButton" onClick={async () => {getAudio(data.id)}}>
-                  <img className="visualizeImg" src="../../images/audio.png" alt="Visualize Button"></img>
-                  <audio className="chatAudio" src="" controls id={data.id} type="audio/wav" style={{display: "none"}}></audio>
-                </Button>
-              </div>
-              <div className="col2 d-flex flex-column align-items-center">
-                <img className="visualizedImage" src={imageSrc[index]} alt="Visualized Result" style={{ display: imageEnabled[index] ? 'block' : 'none', width:"300px",height:"250px"}} ref={(el) => imgRefs.current[index] = el} id={index}></img>
-              </div>
-            </React.Fragment>
-        )
-      })}
+      <h2 className="text-center">Accessible Assistant</h2>
+      {/* <h4 className="text-center">Making ChatGPT accessible to all</h4> */}
+      <div className="mainScreen container-fluid px-5">
+        <div className="col1 d-flex flex-column">
+          <div className="allChats d-flex flex-column" style={{border:"10px"}}>
+            {chatList.map((data, index) => {
+              return (
+                <React.Fragment key={index}>
+                  <div className="userMessage row">
+                    <div className="col-2 col-lg-1 d-flex justify-content-end">
+                      <img className="visualizeImg sticky-top" src="../../images/guest.png" alt="Guest"></img>
+                    </div>
+                    <div className="col-10 col-lg-11">
+                      <Markdown>{data.userMsg}</Markdown>
+                    </div>
+                  </div>
+                  <div className="aiResponse row">
+                    <div className="col-2 col-lg-1 d-flex justify-content-end">
+                      <img className="visualizeImg sticky-top" src="../../images/robot.png" alt="AI"></img>
+                    </div>
+                    <div className="col-10 col-lg-9">
+                      <Markdown>{data.AIMsg}</Markdown>
+                    </div>
+                    <div className="col-12 col-lg-2 text-center">
+                      <Button className="m-1 sticky-top" onClick={() => toggleImage(data.id)}>
+                        <img className="visualizeImg" src="../../images/visualize.png" alt="Toggle"></img>
+                      </Button>
+                      <Button className="m-1 sticky-top" onClick={async () => {getAudio(data.id)}}>
+                        <img className="visualizeImg" src="../../images/audio.png" alt="Play Audio"></img>
+                        <audio className="chatAudio" src="" controls id={data.id} type="audio/wav" style={{display: "none"}}></audio>
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="col2 d-flex flex-column align-items-center">
+                    <img id={`img-${data.id}`} className="visualizedImage" alt="Visualized Result" style={visualizeImage}></img>
+                  </div>
+                </React.Fragment>
+              )
+            })}
           </div>
         </div>
-        
-        </div>
+      </div>
       <div className="chatbar container d-flex flex-row align-items-center justify-content-center">
-            <div className="TextBox align-self-center p-2 w-30 mw-50" style={{height:"55px"}}>
-          <input value={question} onChange={handleChange}  className="w-100 h-100" name="userQuery" placeholder="What can I help you with?"
+        <div className="TextBox align-self-center p-2 w-75 mw-50 py-3">
+          <input value={question} onChange={handleChange} className="w-100 h-100 py-3" name="userQuery" placeholder="What can I help you with?"
             style={{
               textAlignVertical: "top",
               borderColor: "#7da2a9",
               borderRadius: "10px"
             }}/>
-            </div>
-            <div className="SubmitBtn align-self-center p-2">
-                    <Button onClick={addChat}>
-                        Ask ChatGPT
-                    </Button>
-            </div>
         </div>
+        <div className="SubmitBtn align-self-center p-2">
+          <Button onClick={addChat} className="py-3">
+            Ask ChatGPT
+          </Button>
+        </div>
+      </div>
     </>
   )
 }

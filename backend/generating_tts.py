@@ -1,3 +1,4 @@
+import re
 from TTS.utils.synthesizer import Synthesizer
 from base64 import b64encode
 import asyncio
@@ -11,6 +12,7 @@ def start_tts_generation(tts_processes, syn, id):
     loop.close()
 
 def first_letters(input):
+    input = re.sub(r'[*&^$#@-]', '', input).replace("+", "").replace("\"", "").replace("'", "")
     words = input.split()
     result = ''
     for word in words:
@@ -24,7 +26,10 @@ async def generate_tts(tts_processes, syn: Synthesizer, id: str):
         wav_path = f"audio/{id}.wav"
         abs_wav_path = os.path.abspath(wav_path)
         tts_processes[id]["status"] = "processing"
-        outputs = syn.tts(tts_processes[id]["answer"], split_sentences=True)
+        text_to_synthesize = re.sub(r'[*&^$#@]', '', tts_processes[id]["answer"])
+        text_to_synthesize = text_to_synthesize.replace("\n", ".").replace("\r", "").replace("...", ".").replace("..", ". ").replace(". .", ". ")
+        print(f"Synthesizing text: {text_to_synthesize}")
+        outputs = syn.tts(text_to_synthesize, split_sentences=True)
         syn.save_wav(outputs, wav_path)
         # sound = pydub.AudioSegment.from_wav(abs_wav_path)
         # sound.export(f"audio/{id}.mp3", format="mp3")
@@ -37,7 +42,7 @@ async def generate_tts(tts_processes, syn: Synthesizer, id: str):
         tts_processes[id] = {"status": "error"}
         print(f"Error generating audio ID {id}: {str(e)}")
 
-def get_img(tts_processes, syn, id):
+def get_audio(tts_processes, syn, id):
     field = tts_processes[id]
     print(field)
     while field:
