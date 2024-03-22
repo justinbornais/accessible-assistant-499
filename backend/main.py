@@ -8,9 +8,12 @@ from TTS.utils.synthesizer import Synthesizer
 import asyncio
 from threading import Thread
 from generating_tts import first_letters, start_tts_generation, get_audio
+from dotenv import dotenv_values
+
+env_vars = dotenv_values(".env") # Load ENV values.
 
 # Setup OpenAI key.
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = env_vars.get("OPENAI_API_KEY")
 client = OpenAI()
 
 # Setup Flask app.
