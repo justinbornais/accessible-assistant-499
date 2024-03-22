@@ -10,7 +10,7 @@ from threading import Thread
 from generating_tts import first_letters, start_tts_generation, get_audio
 
 # Setup OpenAI key.
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = "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"
 client = OpenAI()
 
 # Setup Flask app.
