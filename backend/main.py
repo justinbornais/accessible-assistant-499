@@ -73,7 +73,6 @@ def askGPT():
             },
         ],
     )
-    answer = "The well-formed formula is a sub well-formed formula of itself because the well-formed formula contains itself."
     answer = completion.choices[0].message.content
     id = first_letters(answer)
     response = {'answer': answer, "response-id": id}
